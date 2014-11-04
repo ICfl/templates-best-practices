@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>org.mule.templates</groupId>
+		<artifactId>templates-tooling-parent-pom</artifactId>
+		<version>1.0.2</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>templates-best-practices</artifactId>
+	<packaging>mule</packaging>
+	<version>1.1.0-SNAPSHOT</version>
+	<name>templates-best-practices Mule Anypoint TemplateProject</name>
+
+	<scm>
+		<connection>scm:git:https://github.com/ICfl/templates-best-practices.git</connection>
+		<developerConnection>scm:git:https://github.com/ICfl/templates-best-practices.git</developerConnection>
+		<url>https://github.com/ICfl/templates-best-practices.git</url>
+	  <tag>HEAD</tag>
+  </scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mule.tools</groupId>
+				<artifactId>maven-mule-plugin</artifactId>
+				<configuration>
+					<copyToAppsDirectory>true</copyToAppsDirectory>
+					<inclusions>
+						<inclusion>
+							<groupId>org.mule.modules</groupId>
+							<artifactId>mule-module-sfdc</artifactId>
+						</inclusion>
+					</inclusions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-sfdc</artifactId>
+			<version>${sfdc.version}</version>
+		</dependency>
+	<dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-spring-config</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+	<repositories>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>mulesoft-snapshots</id>
+			<name>MuleSoft Snapshots Repository</name>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/snapshots/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+</project>
