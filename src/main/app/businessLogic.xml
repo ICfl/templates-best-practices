@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
@@ -8,15 +8,49 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <batch:job name="businessLogicBatch1">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:process-records>
+            <batch:step name="Batch_Step_1">
+                <flow-ref name="businessLogicFlow1" doc:name="Flow Reference1"/>
+            </batch:step>
+            <batch:step name="Batch_Step_N">
+                <flow-ref name="businessLogicFlow2" doc:name="Flow Reference2"/>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete>
+            <flow-ref name="businessLogicFlowOnComplete" doc:name="Flow Reference - On Complete"/>
+        </batch:on-complete>
+    </batch:job>
+    <batch:job name="businessLogicBatchN">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:process-records>
+            <batch:step name="Batch_Step_N_1">
+                <flow-ref name="" doc:name="Flow Reference N1"/>
+            </batch:step>
+            <batch:step name="Batch_Step_N_N">
+                <flow-ref name="" doc:name="Flow Reference N2"/>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete>
+            <flow-ref name="" doc:name="Flow Reference -  On Complete N"/>
+        </batch:on-complete>
+    </batch:job>
+    <sub-flow name="businessLogicFlow1" doc:name="businessLogicFlow1"/>
+    <sub-flow name="businessLogicFlow2" doc:name="businessLogicFlow2"/>
+    <sub-flow name="businessLogicFlowOnComplete" doc:name="businessLogicFlowOnComplete"/>
 
     <flow name="mainFlow" doc:name="mainFlow" processingStrategy="synchronous" doc:description="This flow is the entry point to the Anypoint Template  business logic.
 
 This flow should control the direction of the application, and it should be called by the different endpoints that your Anypoint Template  exposes to trigger it.
 
 ">
-        <batch:execute name="migrateContactsBatch" doc:name="trigger migrateContactsBatch"/>
+        <flow-ref name="" doc:name="trigger common business logic"/>
+        <batch:execute name="businessLogicBatch1" doc:name="trigger batch1"/>
+        <batch:execute name="businessLogicBatchN" doc:name="trigger batchN"/>
         <exception-strategy ref="defaultChoiceExceptionStrategy" doc:name="catch Exception and call defaultChoiceExceptionStrategy"/>
     </flow>
+    <sub-flow name="commonBusinessLogicFlow1" doc:name="commonBusinessLogicFlow1"/>
     
     
 </mule>
